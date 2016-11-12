@@ -28,6 +28,7 @@ parser = argparse.ArgumentParser(description='Process Polygon Package to Domjudg
 parser.add_argument('package', type=str, help='path of the polygon package')
 parser.add_argument('--code',  type=str, help='problem code for domjudge')
 parser.add_argument('--sample',type=str, help='Specify the filename for sample test. Defaults to \'01\'')
+parser.add_argument('--num-samples', type=str, help='Specify the number of sample test cases. Defaults to \'1\'')
 parser.add_argument('--color', type=str, help='problem color for domjudge (in RRGGBB format)')
 parser.add_argument('-o','--output', type=str, help='Output Package directory')
 parser.add_argument('--no-delete', action='store_true', help='Don\'t delete the output directory')
@@ -42,6 +43,13 @@ if args.color:
 
 if args.sample:
 	sample_tests = [args.sample]
+
+if args.num_samples:
+    assert len(sample_tests) == 1
+    first = int(sample_tests[0])
+    num_samples = int(args.num_samples)
+    assert(num_samples < 100)
+    sample_tests = ['{0:02d}'.format(i) for i in range(first, first + num_samples)]
 
 if args.output:
 	OUTPUT_PATH = args.output
