@@ -14,6 +14,8 @@ A simple program to convert CodeForces Polygon ZIP packages to Domjudge ZIP Pack
       -h, --help            show this help message and exit
       --code CODE           problem code for domjudge
       --sample SAMPLE       Specify the filename for sample test. Defaults to '01'
+	  --num-samples NUM_SAMPLES
+							Specify number of sample test cases. Defaults to 1.
       --color COLOR         problem color for domjudge (in RRGGBB format)
       -o OUTPUT, --output OUTPUT
                             Output Package directory
