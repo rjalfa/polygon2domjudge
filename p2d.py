@@ -26,6 +26,7 @@ parser.add_argument('--sample',type=str, help='Specify the filename for sample t
 parser.add_argument('--color', type=str, help='problem color for domjudge (in #XXXXXX format)')
 parser.add_argument('-o','--output', type=str, help='Output Package directory')
 parser.add_argument('--no-delete', action='store_true', help='Don\'t delete the output directory')
+parser.add_argument('--ext', type=str, help='Set extension for the OUTPUT files in testset')
 args = parser.parse_args()
 if args.code:
 	PROBCODE = args.code
@@ -39,6 +40,9 @@ if args.sample:
 if args.output:
 	OUTPUT_PATH = args.output
 	OUTPUT_DIR=OUTPUT_PATH+'/domjudge/'
+
+if args.ext:
+	EXTENSION_FOR_OUTPUT = args.ext
 
 if args.no_delete:
 	nodelete = True
