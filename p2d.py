@@ -31,6 +31,7 @@ parser.add_argument('--sample',type=str, help='Specify the filename for sample t
 parser.add_argument('--color', type=str, help='problem color for domjudge (in RRGGBB format)')
 parser.add_argument('-o','--output', type=str, help='Output Package directory')
 parser.add_argument('--no-delete', action='store_true', help='Don\'t delete the output directory')
+parser.add_argument('--add-html', action='store_true', help='Add Problem statement in HTML form')
 parser.add_argument('--ext', type=str, help='Set extension for the OUTPUT files in testset')
 args = parser.parse_args()
 if args.code:
@@ -59,12 +60,17 @@ if not os.path.isfile(args.package):
 	print "[ERROR] PACKAGE ZIP NOT FOUND"
 	exit(1)
 zip_ref = zipfile.ZipFile(args.package, 'r')
+ensure_no_dir(PACKAGE_DIR)
 zip_ref.extractall(PACKAGE_DIR)
 zip_ref.close()
 
 #Create the OUTPUT DIR
 ensure_no_dir(OUTPUT_DIR)
 ensure_dir(OUTPUT_DIR)
+
+if args.add_html:
+	copyfile(PACKAGE_DIR+'/statements/.html/english/problem.html',OUTPUT_DIR+'problem.html')
+	copyfile(PACKAGE_DIR+'/statements/.html/english/problem-statement.css',OUTPUT_DIR+'problem-statement.css')
 
 #Create Sub DIRS for tests
 ensure_dir(OUTPUT_DIR+'/data')
