@@ -9,6 +9,10 @@ def ensure_dir(s):
 	if not os.path.exists(s):
 		os.makedirs(s)
 
+def ensure_no_dir(s):
+	if os.path.exists(s):
+		rmtree(s)
+
 
 PACKAGE_DIR='poly/'
 OUTPUT_PATH='.'
@@ -18,12 +22,13 @@ sample_tests = ['01']
 PROBCODE = "PROB1"
 PROBCOLOR = "#000000"
 nodelete = False
+
 #PARSING COMMAND LINE ARGUMENTS
 parser = argparse.ArgumentParser(description='Process Polygon Package to Domjudge Package.')
 parser.add_argument('package', type=str, help='path of the polygon package')
 parser.add_argument('--code',  type=str, help='problem code for domjudge')
 parser.add_argument('--sample',type=str, help='Specify the filename for sample test. Defaults to \'01\'')
-parser.add_argument('--color', type=str, help='problem color for domjudge (in #XXXXXX format)')
+parser.add_argument('--color', type=str, help='problem color for domjudge (in RRGGBB format)')
 parser.add_argument('-o','--output', type=str, help='Output Package directory')
 parser.add_argument('--no-delete', action='store_true', help='Don\'t delete the output directory')
 parser.add_argument('--ext', type=str, help='Set extension for the OUTPUT files in testset')
@@ -32,7 +37,7 @@ if args.code:
 	PROBCODE = args.code
 
 if args.color:
-	PROBCODE = args.color
+	PROBCOLOR = '#'+args.color
 
 if args.sample:
 	sample_tests = [args.sample]
@@ -58,6 +63,7 @@ zip_ref.extractall(PACKAGE_DIR)
 zip_ref.close()
 
 #Create the OUTPUT DIR
+ensure_no_dir(OUTPUT_DIR)
 ensure_dir(OUTPUT_DIR)
 
 #Create Sub DIRS for tests
@@ -88,7 +94,6 @@ for test in tests:
 		copyfile(PACKAGE_DIR+'/tests/'+test+EXTENSION_FOR_OUTPUT,OUTPUT_DIR+'/data/secret/'+test+'.ans')
 
 #ZIP the OUTPUT and DELETE Temp
-#Assuming last four chars = .zip
 make_archive(OUTPUT_PATH+'/domjudge', 'zip', OUTPUT_DIR)
 rmtree(PACKAGE_DIR)
 if nodelete == False:
