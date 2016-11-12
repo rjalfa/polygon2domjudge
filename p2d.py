@@ -50,6 +50,9 @@ if args.no_delete:
 
 #Extracting the package
 import zipfile
+if not os.path.isfile(args.package):
+	print "[ERROR] PACKAGE ZIP NOT FOUND"
+	exit(1)
 zip_ref = zipfile.ZipFile(args.package, 'r')
 zip_ref.extractall(PACKAGE_DIR)
 zip_ref.close()
