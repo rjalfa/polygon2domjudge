@@ -18,6 +18,7 @@ PACKAGE_DIR='poly/'
 OUTPUT_PATH='.'
 OUTPUT_DIR=OUTPUT_PATH+'/domjudge/'
 EXTENSION_FOR_OUTPUT = '.a'
+EXTENSION_FOR_DESC = '.desc'
 sample_tests = ['01']
 PROBCODE = "PROB1"
 PROBCOLOR = "#000000"
@@ -85,6 +86,9 @@ ensure_dir(OUTPUT_DIR+'/data')
 ensure_dir(OUTPUT_DIR+'/data/sample')
 ensure_dir(OUTPUT_DIR+'/data/secret')
 
+#Create Sub DIRS for jury submissions
+ensure_dir(OUTPUT_DIR + '/submissions')
+
 #Parse XML for Problem Data
 root = xml.etree.ElementTree.parse(PACKAGE_DIR+'problem.xml').getroot()
 problem_name = root.find('names').find('name').attrib['value']
@@ -106,6 +110,10 @@ for test in tests:
 	else:
 		copyfile(PACKAGE_DIR+'/tests/'+test,OUTPUT_DIR+'/data/secret/'+test+'.in')
 		copyfile(PACKAGE_DIR+'/tests/'+test+EXTENSION_FOR_OUTPUT,OUTPUT_DIR+'/data/secret/'+test+'.ans')
+
+jury_solutions = filter(lambda x : not x.endswith(EXTENSION_FOR_DESC), os.listdir(PACKAGE_DIR + '/solutions'))
+for solution in jury_solutions:
+    copyfile(PACKAGE_DIR + '/solutions/' + solution, OUTPUT_DIR + '/submissions/' + solution)
 
 #ZIP the OUTPUT and DELETE Temp
 make_archive(OUTPUT_PATH+'/domjudge', 'zip', OUTPUT_DIR)
