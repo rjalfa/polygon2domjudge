@@ -94,7 +94,6 @@ root = xml.etree.ElementTree.parse(PACKAGE_DIR+'problem.xml').getroot()
 problem_name = root.find('names').find('name').attrib['value']
 timelimit = int(math.ceil(float(root.find('judging').find('testset').find('time-limit').text)/1000.0))
 
-
 desc = open(OUTPUT_DIR+'domjudge-problem.ini','w+')
 desc.write("probid='"+PROBCODE+"'\n")
 desc.write("name='"+problem_name+"'\n")
@@ -114,6 +113,11 @@ for test in tests:
 jury_solutions = filter(lambda x : not x.endswith(EXTENSION_FOR_DESC), os.listdir(PACKAGE_DIR + '/solutions'))
 for solution in jury_solutions:
     copyfile(PACKAGE_DIR + '/solutions/' + solution, OUTPUT_DIR + '/submissions/' + solution)
+
+statements = os.listdir(PACKAGE_DIR + '/statements/.pdf/english')
+assert len(statements) == 1 #there should be exactly one english pdf
+for statement in statements:
+    copyfile(PACKAGE_DIR + '/statements/.pdf/english/' + statement, OUTPUT_DIR + '/' + statement)
 
 #ZIP the OUTPUT and DELETE Temp
 make_archive(OUTPUT_PATH+'/domjudge', 'zip', OUTPUT_DIR)
