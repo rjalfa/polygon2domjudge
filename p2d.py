@@ -96,7 +96,7 @@ timelimit = int(math.ceil(float(root.find('judging').find('testset').find('time-
 
 desc = open(OUTPUT_DIR+'domjudge-problem.ini','w+')
 desc.write("probid='"+PROBCODE+"'\n")
-desc.write("name='"+problem_name+"'\n")
+desc.write("name='"+problem_name.replace("'","`")+"'\n")
 desc.write("timelimit='"+str(timelimit)+"'\n")
 desc.write("color='"+PROBCOLOR+"'\n")
 desc.close()
