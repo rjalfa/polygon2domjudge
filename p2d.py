@@ -120,7 +120,8 @@ for statement in statements:
     copyfile(PACKAGE_DIR + '/statements/.pdf/english/' + statement, OUTPUT_DIR + '/' + statement)
 
 #ZIP the OUTPUT and DELETE Temp
-make_archive(OUTPUT_PATH+'/domjudge', 'zip', OUTPUT_DIR)
+package_name = os.path.splitext(os.path.basename(args.package))[0]
+make_archive(OUTPUT_PATH + '/' + package_name + '-domjudge', 'zip', OUTPUT_DIR)
 rmtree(PACKAGE_DIR)
 if nodelete == False:
 	rmtree(OUTPUT_DIR)
